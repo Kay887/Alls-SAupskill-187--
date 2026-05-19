@@ -271,7 +271,7 @@ textarea,input,select{font-family:var(--font);outline:none}
 <nav class="nav">
   <div class="nav-brand">
     <span class="nav-pi">π</span>
-    <div><div class="nav-title">SA Study Command</div><div class="nav-sub">139 topics · 58 days · May 11 → Jul 29, 2026</div></div>
+    <div><div class="nav-title">SA Study Command</div><div class="nav-sub">139 topics · 58 days · May 25 → Aug 12, 2026</div></div>
   </div>
   <button class="tab t-map on" onclick="showTab('map')">🧠 Mind Map</button>
   <button class="tab t-plan" onclick="showTab('plan')">📅 Study Plan</button>
@@ -335,7 +335,7 @@ textarea,input,select{font-family:var(--font);outline:none}
 // ═══════════════════════════════════════════════════
 const SUPA_URL = 'https://alxtlzxbjpxxdrpohnvb.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFseHRsenhianB4eGRycG9obnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTM3NTUsImV4cCI6MjA5MDAyOTc1NX0.7B41JEAgwt0LmubRQoq4csfTdH4J_I2DXUzHe7iGZkw';
-const SUPA_ROW = 'sa_study_v1';
+const SUPA_ROW = 'sa_study_v2';
 const SUPA_EP  = SUPA_URL + '/rest/v1/tracker_data';
 
 let S = { done:{}, notes:{}, status:{}, url:{}, assessAnswers:{}, assessScores:{}, xp:0, streak:0, lastActive:null };
@@ -551,94 +551,94 @@ const TOPICS = [
 ];
 
 // ═══════════════════════════════════════════════════
-// SCHEDULE — Start: Mon May 11 2026 · D-Day: Jul 29 2026
+// SCHEDULE — Start: Mon May 25 2026 · D-Day: Aug 12 2026
 // Rule: Mon/Fri = Horizontal (3 topics × 90min)
 //       Tue/Thu = Left Leg (3 topics × 90min)
 //       Wed     = Right Leg (3 topics × 90min)
 // Weeks 10-11 use synthesis/special days once all content is delivered
 // ═══════════════════════════════════════════════════
 const SCHEDULE = [
-{w:1,label:'Week 1',dates:'May 11–May 15',milestone:null,days:[
-  {d:1,date:'May 11',dow:'Mon',leg:'H',topics:['H01','H02','H03']},
-  {d:2,date:'May 12',dow:'Tue',leg:'L',topics:['L01','L02','L03']},
-  {d:3,date:'May 13',dow:'Wed',leg:'R',topics:['R01','R02','R03']},
-  {d:4,date:'May 14',dow:'Thu',leg:'L',topics:['L04','L05','L06']},
-  {d:5,date:'May 15',dow:'Fri',leg:'H',topics:['H04','H05','H06']},
+{w:1,label:'Week 1',dates:'May 25–May 29',milestone:null,days:[
+  {d:1,date:'May 25',dow:'Mon',leg:'H',topics:['H01','H02','H03']},
+  {d:2,date:'May 26',dow:'Tue',leg:'L',topics:['L01','L02','L03']},
+  {d:3,date:'May 27',dow:'Wed',leg:'R',topics:['R01','R02','R03']},
+  {d:4,date:'May 28',dow:'Thu',leg:'L',topics:['L04','L05','L06']},
+  {d:5,date:'May 29',dow:'Fri',leg:'H',topics:['H04','H05','H06']},
 ]},
-{w:2,label:'Week 2',dates:'May 18–May 22',milestone:null,days:[
-  {d:6,date:'May 18',dow:'Mon',leg:'H',topics:['H07','H08','H09']},
-  {d:7,date:'May 19',dow:'Tue',leg:'L',topics:['L07','L08','L09']},
-  {d:8,date:'May 20',dow:'Wed',leg:'R',topics:['R04','R05','R06']},
-  {d:9,date:'May 21',dow:'Thu',leg:'L',topics:['L10','L11','L12']},
-  {d:10,date:'May 22',dow:'Fri',leg:'H',topics:['H10','H11','H12']},
+{w:2,label:'Week 2',dates:'Jun 1–Jun 5',milestone:null,days:[
+  {d:6,date:'Jun 1',dow:'Mon',leg:'H',topics:['H07','H08','H09']},
+  {d:7,date:'Jun 2',dow:'Tue',leg:'L',topics:['L07','L08','L09']},
+  {d:8,date:'Jun 3',dow:'Wed',leg:'R',topics:['R04','R05','R06']},
+  {d:9,date:'Jun 4',dow:'Thu',leg:'L',topics:['L10','L11','L12']},
+  {d:10,date:'Jun 5',dow:'Fri',leg:'H',topics:['H10','H11','H12']},
 ]},
-{w:3,label:'Week 3',dates:'May 25–May 29',milestone:'🎯 15-Day Check — Resilience · NIST · Core Detection Foundations',days:[
-  {d:11,date:'May 25',dow:'Mon',leg:'H',topics:['H13','H14','H15']},
-  {d:12,date:'May 26',dow:'Tue',leg:'L',topics:['L13','L14','L15']},
-  {d:13,date:'May 27',dow:'Wed',leg:'R',topics:['R07','R08','R09']},
-  {d:14,date:'May 28',dow:'Thu',leg:'L',topics:['L16','L17','L18']},
-  {d:15,date:'May 29',dow:'Fri',leg:'H',topics:['H16','H17','H18']},
+{w:3,label:'Week 3',dates:'Jun 8–Jun 12',milestone:'🎯 15-Day Check — Resilience · NIST · Core Detection Foundations',days:[
+  {d:11,date:'Jun 8',dow:'Mon',leg:'H',topics:['H13','H14','H15']},
+  {d:12,date:'Jun 9',dow:'Tue',leg:'L',topics:['L13','L14','L15']},
+  {d:13,date:'Jun 10',dow:'Wed',leg:'R',topics:['R07','R08','R09']},
+  {d:14,date:'Jun 11',dow:'Thu',leg:'L',topics:['L16','L17','L18']},
+  {d:15,date:'Jun 12',dow:'Fri',leg:'H',topics:['H16','H17','H18']},
 ]},
-{w:4,label:'Week 4',dates:'Jun 1–Jun 5',milestone:null,days:[
-  {d:16,date:'Jun 1',dow:'Mon',leg:'H',topics:['H19','H20','H21']},
-  {d:17,date:'Jun 2',dow:'Tue',leg:'L',topics:['L19','L20','L21']},
-  {d:18,date:'Jun 3',dow:'Wed',leg:'R',topics:['R10','R11','R12']},
-  {d:19,date:'Jun 4',dow:'Thu',leg:'L',topics:['L22','L23','L24']},
-  {d:20,date:'Jun 5',dow:'Fri',leg:'H',topics:['H22','H23','H24']},
+{w:4,label:'Week 4',dates:'Jun 15–Jun 19',milestone:null,days:[
+  {d:16,date:'Jun 15',dow:'Mon',leg:'H',topics:['H19','H20','H21']},
+  {d:17,date:'Jun 16',dow:'Tue',leg:'L',topics:['L19','L20','L21']},
+  {d:18,date:'Jun 17',dow:'Wed',leg:'R',topics:['R10','R11','R12']},
+  {d:19,date:'Jun 18',dow:'Thu',leg:'L',topics:['L22','L23','L24']},
+  {d:20,date:'Jun 19',dow:'Fri',leg:'H',topics:['H22','H23','H24']},
 ]},
-{w:5,label:'Week 5',dates:'Jun 8–Jun 12',milestone:'🎯 25-Day Check — SOC 2 · KPIs · Maturity · Roadmaps',days:[
-  {d:21,date:'Jun 8',dow:'Mon',leg:'H',topics:['H25','H26','H27']},
-  {d:22,date:'Jun 9',dow:'Tue',leg:'L',topics:['L25','L26','L27']},
-  {d:23,date:'Jun 10',dow:'Wed',leg:'R',topics:['R13','R14','R15']},
-  {d:24,date:'Jun 11',dow:'Thu',leg:'L',topics:['L28','L29','L30']},
-  {d:25,date:'Jun 12',dow:'Fri',leg:'H',topics:['H28','H29','H30']},
+{w:5,label:'Week 5',dates:'Jun 22–Jun 26',milestone:'🎯 25-Day Check — SOC 2 · KPIs · Maturity · Roadmaps',days:[
+  {d:21,date:'Jun 22',dow:'Mon',leg:'H',topics:['H25','H26','H27']},
+  {d:22,date:'Jun 23',dow:'Tue',leg:'L',topics:['L25','L26','L27']},
+  {d:23,date:'Jun 24',dow:'Wed',leg:'R',topics:['R13','R14','R15']},
+  {d:24,date:'Jun 25',dow:'Thu',leg:'L',topics:['L28','L29','L30']},
+  {d:25,date:'Jun 26',dow:'Fri',leg:'H',topics:['H28','H29','H30']},
 ]},
-{w:6,label:'Week 6',dates:'Jun 15–Jun 19',milestone:null,days:[
-  {d:26,date:'Jun 15',dow:'Mon',leg:'H',topics:['H31','H32','H33']},
-  {d:27,date:'Jun 16',dow:'Tue',leg:'L',topics:['L31','L32','L33']},
-  {d:28,date:'Jun 17',dow:'Wed',leg:'R',topics:['R16','R17','R18']},
-  {d:29,date:'Jun 18',dow:'Thu',leg:'L',topics:['L34','L35','L36']},
-  {d:30,date:'Jun 19',dow:'Fri',leg:'H',topics:['H34','H35','H36']},
+{w:6,label:'Week 6',dates:'Jun 29–Jul 3',milestone:null,days:[
+  {d:26,date:'Jun 29',dow:'Mon',leg:'H',topics:['H31','H32','H33']},
+  {d:27,date:'Jun 30',dow:'Tue',leg:'L',topics:['L31','L32','L33']},
+  {d:28,date:'Jul 1',dow:'Wed',leg:'R',topics:['R16','R17','R18']},
+  {d:29,date:'Jul 2',dow:'Thu',leg:'L',topics:['L34','L35','L36']},
+  {d:30,date:'Jul 3',dow:'Fri',leg:'H',topics:['H34','H35','H36']},
 ]},
-{w:7,label:'Week 7',dates:'Jun 22–Jun 26',milestone:'🎯 35-Day Check — Architecture · Trade-offs · ZT · Simulation',days:[
-  {d:31,date:'Jun 22',dow:'Mon',leg:'H',topics:['H37','H38','H39']},
-  {d:32,date:'Jun 23',dow:'Tue',leg:'L',topics:['L37','L38','L39']},
-  {d:33,date:'Jun 24',dow:'Wed',leg:'R',topics:['R19','R20','R21']},
-  {d:34,date:'Jun 25',dow:'Thu',leg:'L',topics:['L40','L41','L42']},
-  {d:35,date:'Jun 26',dow:'Fri',leg:'H',topics:['H40','H41','H42']},
+{w:7,label:'Week 7',dates:'Jul 6–Jul 10',milestone:'🎯 35-Day Check — Architecture · Trade-offs · ZT · Simulation',days:[
+  {d:31,date:'Jul 6',dow:'Mon',leg:'H',topics:['H37','H38','H39']},
+  {d:32,date:'Jul 7',dow:'Tue',leg:'L',topics:['L37','L38','L39']},
+  {d:33,date:'Jul 8',dow:'Wed',leg:'R',topics:['R19','R20','R21']},
+  {d:34,date:'Jul 9',dow:'Thu',leg:'L',topics:['L40','L41','L42']},
+  {d:35,date:'Jul 10',dow:'Fri',leg:'H',topics:['H40','H41','H42']},
 ]},
-{w:8,label:'Week 8',dates:'Jun 29–Jul 3',milestone:null,days:[
-  {d:36,date:'Jun 29',dow:'Mon',leg:'H',topics:['H43','H44','H45']},
-  {d:37,date:'Jun 30',dow:'Tue',leg:'L',topics:['L43','L44','L45']},
-  {d:38,date:'Jul 1',dow:'Wed',leg:'R',topics:['R22','R23','R24']},
-  {d:39,date:'Jul 2',dow:'Thu',leg:'L',topics:['L46','L47','L48']},
-  {d:40,date:'Jul 3',dow:'Fri',leg:'H',topics:['H46','H47','H48']},
+{w:8,label:'Week 8',dates:'Jul 13–Jul 17',milestone:null,days:[
+  {d:36,date:'Jul 13',dow:'Mon',leg:'H',topics:['H43','H44','H45']},
+  {d:37,date:'Jul 14',dow:'Tue',leg:'L',topics:['L43','L44','L45']},
+  {d:38,date:'Jul 15',dow:'Wed',leg:'R',topics:['R22','R23','R24']},
+  {d:39,date:'Jul 16',dow:'Thu',leg:'L',topics:['L46','L47','L48']},
+  {d:40,date:'Jul 17',dow:'Fri',leg:'H',topics:['H46','H47','H48']},
 ]},
-{w:9,label:'Week 9',dates:'Jul 6–Jul 10',milestone:'🎯 45-Day Check — All Horizontal + Left Leg Detection complete',days:[
-  {d:41,date:'Jul 6',dow:'Mon',leg:'H',topics:['H49','H50','H51']},
-  {d:42,date:'Jul 7',dow:'Tue',leg:'L',topics:['L49','L50','L51']},
-  {d:43,date:'Jul 8',dow:'Wed',leg:'R',topics:['R25','R26','R27']},
-  {d:44,date:'Jul 9',dow:'Thu',leg:'L',topics:['L52','L53']},
-  {d:45,date:'Jul 10',dow:'Fri',leg:'H',topics:['H52','H53','H54']},
+{w:9,label:'Week 9',dates:'Jul 20–Jul 24',milestone:'🎯 45-Day Check — All Horizontal + Left Leg Detection complete',days:[
+  {d:41,date:'Jul 20',dow:'Mon',leg:'H',topics:['H49','H50','H51']},
+  {d:42,date:'Jul 21',dow:'Tue',leg:'L',topics:['L49','L50','L51']},
+  {d:43,date:'Jul 22',dow:'Wed',leg:'R',topics:['R25','R26','R27']},
+  {d:44,date:'Jul 23',dow:'Thu',leg:'L',topics:['L52','L53']},
+  {d:45,date:'Jul 24',dow:'Fri',leg:'H',topics:['H52','H53','H54']},
 ]},
-{w:10,label:'Week 10',dates:'Jul 13–Jul 17',milestone:'🎯 55-Day Check — OEM Stack Complete + Right Leg Final Push',days:[
-  {d:46,date:'Jul 13',dow:'Mon',leg:'S',topics:null,special:'🧠 Horizontal Synthesis — Architecture · Executive Storytelling · Competitive (H01–H54)'},
-  {d:47,date:'Jul 14',dow:'Tue',leg:'S',topics:null,special:'⚡ Left Leg OEM Deep Dive — Splunk ES · SOAR · SIGMA · Full Stack Integration (L41–L53)'},
-  {d:48,date:'Jul 15',dow:'Wed',leg:'R',topics:['R28','R29','R30']},
-  {d:49,date:'Jul 16',dow:'Thu',leg:'S',topics:null,special:'🔧 Left Leg Synthesis — Detection Architecture · Simulation · Executive Defense (L26–L40)'},
-  {d:50,date:'Jul 17',dow:'Fri',leg:'S',topics:null,special:'🏆 Full OEM Stack Integration Review · BFSI SOC Modernisation Case Study'},
+{w:10,label:'Week 10',dates:'Jul 27–Jul 31',milestone:'🎯 55-Day Check — OEM Stack Complete + Right Leg Final Push',days:[
+  {d:46,date:'Jul 27',dow:'Mon',leg:'S',topics:null,special:'🧠 Horizontal Synthesis — Architecture · Executive Storytelling · Competitive (H01–H54)'},
+  {d:47,date:'Jul 28',dow:'Tue',leg:'S',topics:null,special:'⚡ Left Leg OEM Deep Dive — Splunk ES · SOAR · SIGMA · Full Stack Integration (L41–L53)'},
+  {d:48,date:'Jul 29',dow:'Wed',leg:'R',topics:['R28','R29','R30']},
+  {d:49,date:'Jul 30',dow:'Thu',leg:'S',topics:null,special:'🔧 Left Leg Synthesis — Detection Architecture · Simulation · Executive Defense (L26–L40)'},
+  {d:50,date:'Jul 31',dow:'Fri',leg:'S',topics:null,special:'🏆 Full OEM Stack Integration Review · BFSI SOC Modernisation Case Study'},
 ]},
-{w:11,label:'Week 11',dates:'Jul 20–Jul 24',milestone:'🎯 58-Day Check — Right Leg Done · Synthesis & Mock Presentations',days:[
-  {d:51,date:'Jul 20',dow:'Mon',leg:'S',topics:null,special:'🔄 Right Leg Synthesis — Architecture · Commercial · Competitive (R01–R30)'},
-  {d:52,date:'Jul 21',dow:'Tue',leg:'S',topics:null,special:'🎤 Mock Presentation #1 — BFSI SOC Modernisation (45 min timed)'},
-  {d:53,date:'Jul 22',dow:'Wed',leg:'R',topics:['R31','R32']},
-  {d:54,date:'Jul 23',dow:'Thu',leg:'S',topics:null,special:'🎤 Mock Presentation #2 — ZT + SASE Architecture (30 min timed)'},
-  {d:55,date:'Jul 24',dow:'Fri',leg:'S',topics:null,special:'📝 Final Assessment Prep — Gap Review + Score all 9 Assessments'},
+{w:11,label:'Week 11',dates:'Aug 3–Aug 7',milestone:'🎯 58-Day Check — Right Leg Done · Synthesis & Mock Presentations',days:[
+  {d:51,date:'Aug 3',dow:'Mon',leg:'S',topics:null,special:'🔄 Right Leg Synthesis — Architecture · Commercial · Competitive (R01–R30)'},
+  {d:52,date:'Aug 4',dow:'Tue',leg:'S',topics:null,special:'🎤 Mock Presentation #1 — BFSI SOC Modernisation (45 min timed)'},
+  {d:53,date:'Aug 5',dow:'Wed',leg:'R',topics:['R31','R32']},
+  {d:54,date:'Aug 6',dow:'Thu',leg:'S',topics:null,special:'🎤 Mock Presentation #2 — ZT + SASE Architecture (30 min timed)'},
+  {d:55,date:'Aug 7',dow:'Fri',leg:'S',topics:null,special:'📝 Final Assessment Prep — Gap Review + Score all 9 Assessments'},
 ]},
-{w:12,label:'Week 12',dates:'Jul 27–Jul 29',milestone:'🏆 D-Day — Jul 29, 2026',days:[
-  {d:56,date:'Jul 27',dow:'Mon',leg:'S',topics:null,special:'📝 Final Assessment — All 139 topics synthesis'},
-  {d:57,date:'Jul 28',dow:'Tue',leg:'S',topics:null,special:'🔄 SAIL Retrospective — Full learning reflection'},
-  {d:58,date:'Jul 29',dow:'Wed',leg:'S',topics:null,special:'🎓 Graduation + Phase 2 Planning Session'},
+{w:12,label:'Week 12',dates:'Aug 10–Aug 12',milestone:'🏆 D-Day — Aug 12, 2026',days:[
+  {d:56,date:'Aug 10',dow:'Mon',leg:'S',topics:null,special:'📝 Final Assessment — All 139 topics synthesis'},
+  {d:57,date:'Aug 11',dow:'Tue',leg:'S',topics:null,special:'🔄 SAIL Retrospective — Full learning reflection'},
+  {d:58,date:'Aug 12',dow:'Wed',leg:'S',topics:null,special:'🎓 Graduation + Phase 2 Planning Session'},
 ]},
 ];
 
@@ -1008,7 +1008,7 @@ function renderDash(){
     {label:'25-Day',date:'Jun 12',color:'#10b981',ids:SCHEDULE.filter(w=>w.w<=5).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
     {label:'35-Day',date:'Jun 26',color:'#8b5cf6',ids:SCHEDULE.filter(w=>w.w<=7).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
     {label:'45-Day',date:'Jul 10',color:'#f59e0b',ids:SCHEDULE.filter(w=>w.w<=9).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
-    {label:'D-Day', date:'Jul 29',color:'#ef4444',ids:TOPICS.map(t=>t.id)},
+    {label:'D-Day', date:'Aug 12',color:'#ef4444',ids:TOPICS.map(t=>t.id)},
   ];
   const streakSqs=Array.from({length:45},(_,i)=>`<div class="streak-sq ${i<S.streak?'on':''}"></div>`).join('');
   const badgesHtml=TOPICS.map(t=>`<div class="badge ${topicDone(t.id)?'earned':''}" title="${t.name}" onclick="openTopic('${t.id}')"><span class="badge-icon">${t.badge}</span><span class="badge-id">${t.id}</span></div>`).join('');
@@ -1243,9 +1243,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 function renderP2(){
   const el=document.getElementById('p2-content');if(!el)return;
   el.innerHTML=`<div class="p2-banner">
-    <div class="p2-banner-title">🚀 Phase 2 — Beyond Jul 29, 2026</div>
+    <div class="p2-banner-title">🚀 Phase 2 — Beyond Aug 12, 2026</div>
     <div class="p2-banner-sub">Certifications · Thought Leadership · Customer-Facing Activities · OEM LP Completion</div>
-    <div style="font-size:10px;color:rgba(20,184,166,.5);font-family:var(--mono);margin-top:6px">[ Activate after D-Day — Jul 29, 2026 ]</div>
+    <div style="font-size:10px;color:rgba(20,184,166,.5);font-family:var(--mono);margin-top:6px">[ Activate after D-Day — Aug 12, 2026 ]</div>
   </div>
   <div class="p2-grid">
     ${[
@@ -1254,7 +1254,7 @@ function renderP2(){
       {icon:'🤝',title:'Customer-Facing Activities',items:['2× Customer Workshops (SOC Assessment)','2× EBC / Executive Briefings','1× POC (Splunk ES or CATO)','1× RFP win using new frameworks','1× Reference customer case study','QBR presentation — portfolio value'],note:'Target: 1 workshop + 1 EBC by Nov 2026'},
       {icon:'📈',title:'OEM LP Completion',items:['Splunk — Full LP + SE track','Palo Alto — PANW Partner Hub SE path','CATO — SASE Expert program','CloudSEK — Full partner LP','BluSapphire — Partner LP'],note:'Target: All 5 OEM LPs complete by Dec 2026'},
       {icon:'🧩',title:'Misc Leg — Phase 3 Preview',items:['Lead a customer-facing security assessment','Co-present with OEM SE at customer EBC','Contribute to large RFP (>₹5Cr)','Mentor a junior SA on Pi model','Build a vertical-specific solution play'],note:'Misc Leg formally activates: Jan 2027'},
-      {icon:'🏆',title:'90-Day Goal State',items:['Recognised go-to SA for 2 OEMs','1 published thought leadership piece','2 certifications achieved','Active LinkedIn presence with 1 viral post','Invited to 1 external speaking opportunity'],note:'Review at D-Day Jul 29 — confirm top 3 to activate'},
+      {icon:'🏆',title:'90-Day Goal State',items:['Recognised go-to SA for 2 OEMs','1 published thought leadership piece','2 certifications achieved','Active LinkedIn presence with 1 viral post','Invited to 1 external speaking opportunity'],note:'Review at D-Day Aug 12 — confirm top 3 to activate'
     ].map(c=>`<div class="p2-card"><div class="p2-icon">${c.icon}</div><div class="p2-title">${c.title}</div><ul class="p2-list">${c.items.map(i=>`<li>${i}</li>`).join('')}</ul><div class="p2-note">${c.note}</div></div>`).join('')}
   </div>`;
 }
