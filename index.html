@@ -803,8 +803,11 @@ let mt={x:0,y:0,s:1},mDrag=false,mLast={x:0,y:0},mapFilter='all';
 function renderMap(){
   const wrap=document.getElementById('map-svg-wrap');
   const svg=document.getElementById('map-svg');
-  const W=wrap.clientWidth||window.innerWidth;
-  const H=wrap.clientHeight||(window.innerHeight-48);
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+const W=wrap.getBoundingClientRect().width||wrap.clientWidth||window.innerWidth;
+const H=wrap.getBoundingClientRect().height||wrap.clientHeight||(window.innerHeight-48);
+if(!W||!H){ setTimeout(renderMap,100); return; }
   const cx=W/2,cy=H/2;
   const hT=TOPICS.filter(t=>t.leg==='H');
   const lT=TOPICS.filter(t=>t.leg==='L');
@@ -862,7 +865,7 @@ function renderMap(){
     <text x="${cx}" y="${cy+29}" text-anchor="middle" font-family="Inconsolata,monospace" font-size="7.5" fill="#4a5568">${doneCount()}/139</text>`;
   svg.innerHTML=`<defs><radialGradient id="bgG" cx="50%" cy="50%"><stop offset="0%" stop-color="#0a1020"/><stop offset="100%" stop-color="#050810"/></radialGradient></defs>
   <rect width="100%" height="100%" fill="url(#bgG)"/>
-  <g id="map-g" transform="translate(${mt.x},${mt.y}) scale(${mt.s})">${lines}${center}${nodes}${labels}</g>`;
+  <g id="map-g" transform="translate(${mt.x},${mt.y}) scale(${mt.s})">${lines}${nodes}${labels}${center}</g>`;
   const w=document.getElementById('map-svg-wrap');
   w.onmousedown=e=>{mDrag=true;mLast={x:e.clientX,y:e.clientY};e.preventDefault();};
   w.onmousemove=e=>{if(!mDrag)return;mt.x+=e.clientX-mLast.x;mt.y+=e.clientY-mLast.y;mLast={x:e.clientX,y:e.clientY};applyMT();};
@@ -1004,10 +1007,10 @@ function renderDash(){
   const xpPct=lv.max<99999?Math.round(((S.xp-lv.min)/(lv.max-lv.min))*100):100;
   const hd=legDone('H'),ld=legDone('L'),rd=legDone('R');
   const milestones=[
-    {label:'15-Day',date:'May 29',color:'#3b82f6',ids:SCHEDULE.filter(w=>w.w<=3).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
-    {label:'25-Day',date:'Jun 12',color:'#10b981',ids:SCHEDULE.filter(w=>w.w<=5).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
-    {label:'35-Day',date:'Jun 26',color:'#8b5cf6',ids:SCHEDULE.filter(w=>w.w<=7).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
-    {label:'45-Day',date:'Jul 10',color:'#f59e0b',ids:SCHEDULE.filter(w=>w.w<=9).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
+    {label:'15-Day',date:'Jun 12',color:'#3b82f6',ids:SCHEDULE.filter(w=>w.w<=3).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
+    {label:'25-Day',date:'Jun 26',color:'#10b981',ids:SCHEDULE.filter(w=>w.w<=5).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
+    {label:'35-Day',date:'Jul 10',color:'#8b5cf6',ids:SCHEDULE.filter(w=>w.w<=7).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
+    {label:'45-Day',date:'Jul 24',color:'#f59e0b',ids:SCHEDULE.filter(w=>w.w<=9).flatMap(w=>w.days.filter(d=>d.topics).flatMap(d=>d.topics))},
     {label:'D-Day', date:'Aug 12',color:'#ef4444',ids:TOPICS.map(t=>t.id)},
   ];
   const streakSqs=Array.from({length:45},(_,i)=>`<div class="streak-sq ${i<S.streak?'on':''}"></div>`).join('');
@@ -1254,7 +1257,7 @@ function renderP2(){
       {icon:'🤝',title:'Customer-Facing Activities',items:['2× Customer Workshops (SOC Assessment)','2× EBC / Executive Briefings','1× POC (Splunk ES or CATO)','1× RFP win using new frameworks','1× Reference customer case study','QBR presentation — portfolio value'],note:'Target: 1 workshop + 1 EBC by Nov 2026'},
       {icon:'📈',title:'OEM LP Completion',items:['Splunk — Full LP + SE track','Palo Alto — PANW Partner Hub SE path','CATO — SASE Expert program','CloudSEK — Full partner LP','BluSapphire — Partner LP'],note:'Target: All 5 OEM LPs complete by Dec 2026'},
       {icon:'🧩',title:'Misc Leg — Phase 3 Preview',items:['Lead a customer-facing security assessment','Co-present with OEM SE at customer EBC','Contribute to large RFP (>₹5Cr)','Mentor a junior SA on Pi model','Build a vertical-specific solution play'],note:'Misc Leg formally activates: Jan 2027'},
-      {icon:'🏆',title:'90-Day Goal State',items:['Recognised go-to SA for 2 OEMs','1 published thought leadership piece','2 certifications achieved','Active LinkedIn presence with 1 viral post','Invited to 1 external speaking opportunity'],note:'Review at D-Day Aug 12 — confirm top 3 to activate'
+      {icon:'🏆',title:'90-Day Goal State',items:['Recognised go-to SA for 2 OEMs','1 published thought leadership piece','2 certifications achieved','Active LinkedIn presence with 1 viral post','Invited to 1 external speaking opportunity'],note:'Review at D-Day Aug 12 — confirm top 3 to activate'},
     ].map(c=>`<div class="p2-card"><div class="p2-icon">${c.icon}</div><div class="p2-title">${c.title}</div><ul class="p2-list">${c.items.map(i=>`<li>${i}</li>`).join('')}</ul><div class="p2-note">${c.note}</div></div>`).join('')}
   </div>`;
 }
