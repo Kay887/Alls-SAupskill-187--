@@ -799,6 +799,8 @@ function scCls(s){ return{Done:'sDone','In Progress':'sIP','Needs Revisit':'sNR'
 // MIND MAP
 // ═══════════════════════════════════
 let mt={x:0,y:0,s:1},mDrag=false,mLast={x:0,y:0},mapFilter='all';
+  let kbColCollapsed={};
+let kbDayCollapsed={};
 
 function renderMap(){
   const wrap=document.getElementById('map-svg-wrap');
@@ -947,14 +949,46 @@ function renderPlan(){
 // ═══════════════════════════════════
 // KANBAN — grouped by week, days clearly labelled with leg colour
 // ═══════════════════════════════════
-function renderKanban(){
+  function getCurrentWeek(){
+  const today=new Date();
+  const wS=[null,new Date('2026-05-25'),new Date('2026-06-01'),new Date('2026-06-08'),new Date('2026-06-15'),new Date('2026-06-22'),new Date('2026-06-29'),new Date('2026-07-06'),new Date('2026-07-13'),new Date('2026-07-20'),new Date('2026-07-27'),new Date('2026-08-03'),new Date('2026-08-10')];
+  const wE=[null,new Date('2026-05-29'),new Date('2026-06-05'),new Date('2026-06-12'),new Date('2026-06-19'),new Date('2026-06-26'),new Date('2026-07-03'),new Date('2026-07-10'),new Date('2026-07-17'),new Date('2026-07-24'),new Date('2026-07-31'),new Date('2026-08-07'),new Date('2026-08-12')];
+  if(today<wS[1]) return 1;
+  if(today>wE[12]) return 12;
+  for(let w=1;w<=12;w++){ if(today>=wS[w]&&today<=wE[w]) return w; }
+  for(let w=2;w<=12;w++){ if(today<wS[w]) return w; }
+  return 1;
+} 
+  function renderKanban(){
   const el=document.getElementById('kanban-content'); if(!el)return;
   el.innerHTML='';
+  const curW=getCurrentWeek();
+
+  // Init collapse state on first load only
+  if(Object.keys(kbColCollapsed).length===0){
+    SCHEDULE.forEach(week=>{ kbColCollapsed[week.w]=(week.w!==curW); });
+  }
+
+  // Toolbar
+  if(document.getElementById('kb-toolbar')) document.getElementById('kb-toolbar').remove();
+  const toolbar=document.createElement('div');
+  toolbar.id='kb-toolbar';
+  toolbar.style.cssText='display:flex;gap:6px;padding:10px 14px 4px;flex-shrink:0;align-items:center;border-bottom:1px solid var(--border);background:var(--s1);';
+  toolbar.innerHTML=`
+    <span style="font-size:9px;font-weight:800;color:var(--t2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-right:4px">Kanban</span>
+    <button onclick="kbSetAll(false)" style="padding:3px 10px;border-radius:5px;font-size:9px;font-weight:700;background:var(--s2);color:var(--t2);border:1px solid var(--border);font-family:var(--mono);cursor:pointer">⊟ Collapse All</button>
+    <button onclick="kbSetAll(true)" style="padding:3px 10px;border-radius:5px;font-size:9px;font-weight:700;background:var(--s2);color:var(--t2);border:1px solid var(--border);font-family:var(--mono);cursor:pointer">⊞ Expand All</button>
+    <span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:6px">Click week header or day label to toggle</span>`;
+  const wrap=document.querySelector('.kanban-wrap');
+  wrap.parentElement.insertBefore(toolbar,wrap);
+
   SCHEDULE.forEach(week=>{
     const col=document.createElement('div');
     col.className='kb-col';
     const allIds=week.days.filter(d=>d.topics).flatMap(d=>d.topics);
     const wDone=allIds.filter(id=>topicDone(id)).length;
+    const colOpen=!kbColCollapsed[week.w];
+    const isCurrentWeek=(week.w===curW);
 
     let cardsHtml='';
     if(week.milestone){
@@ -963,17 +997,33 @@ function renderKanban(){
 
     week.days.forEach(day=>{
       if(!day.topics && day.special){
-        cardsHtml+=`<div class="kb-day-label leg-S">◉ Day ${day.d} · ${day.date} · ${day.dow}</div>`;
+        const dayOpen=!kbDayCollapsed['d_'+day.d];
+        cardsHtml+=`<div class="kb-day-label leg-S" onclick="kbDayToggle(${day.d})" style="cursor:pointer;justify-content:space-between">
+          <span>◉ Day ${day.d} · ${day.date} · ${day.dow}</span>
+          <span style="font-size:9px;opacity:.6">${dayOpen?'▲':'▼'}</span>
+        </div>`;
+        cardsHtml+=`<div id="kb-day-${day.d}" style="display:${dayOpen?'block':'none'}">`;
         cardsHtml+=`<div class="kb-special">${esc(day.special)}</div>`;
+        cardsHtml+=`</div>`;
         cardsHtml+=`<div class="kb-divider"></div>`;
         return;
       }
       if(!day.topics) return;
 
+      const dayOpen=!kbDayCollapsed['d_'+day.d];
       const legLabel={H:'⬛ Horizontal',L:'◆ Left Leg',R:'▶ Right Leg'}[day.leg]||day.leg;
       const legCls=`leg-${day.leg}`;
-      cardsHtml+=`<div class="kb-day-label ${legCls}">Day ${day.d} · ${day.date} · ${day.dow} · ${legLabel}</div>`;
+      const dayDone=day.topics.filter(id=>topicDone(id)).length;
 
+      cardsHtml+=`<div class="kb-day-label ${legCls}" onclick="kbDayToggle(${day.d})" style="cursor:pointer;justify-content:space-between">
+        <span>Day ${day.d} · ${day.date} · ${day.dow} · ${legLabel}</span>
+        <span style="display:flex;align-items:center;gap:5px">
+          <span style="font-size:7px;opacity:.6">${dayDone}/${day.topics.length}</span>
+          <span style="font-size:9px;opacity:.6">${dayOpen?'▲':'▼'}</span>
+        </span>
+      </div>`;
+
+      cardsHtml+=`<div id="kb-day-${day.d}" style="display:${dayOpen?'flex':'none'};flex-direction:column;gap:4px">`;
       day.topics.forEach(id=>{
         const t=TOPICS.find(x=>x.id===id);if(!t)return;
         const done=topicDone(id),st=topicStatus(id);
@@ -986,18 +1036,82 @@ function renderKanban(){
           </div>
         </div>`;
       });
+      cardsHtml+=`</div>`;
       cardsHtml+=`<div class="kb-divider"></div>`;
     });
 
-    col.innerHTML=`<div class="kb-col-hdr">
-      <span class="kb-col-title" style="color:var(--xp)">W${week.w} · ${week.dates}</span>
-      <span class="kb-col-prog" style="color:${wDone===allIds.length&&allIds.length>0?'var(--done)':'var(--t2)'}">${wDone}/${allIds.length}</span>
+    const weekLabel=isCurrentWeek?`<span style="font-size:7px;font-weight:800;padding:1px 6px;border-radius:3px;background:rgba(255,214,10,.15);color:var(--xp);font-family:var(--mono);margin-left:4px">NOW</span>`:'';
+
+    col.innerHTML=`<div class="kb-col-hdr" onclick="kbColToggle(${week.w})" style="cursor:pointer;user-select:none">
+      <span class="kb-col-title" style="color:var(--xp);display:flex;align-items:center;gap:4px">W${week.w} · ${week.dates}${weekLabel}</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="kb-col-prog" style="color:${wDone===allIds.length&&allIds.length>0?'var(--done)':'var(--t2)'}">${wDone}/${allIds.length}</span>
+        <span style="font-size:10px;color:var(--t3);font-family:var(--mono)">${colOpen?'▲':'▼'}</span>
+      </div>
     </div>
-    <div class="kb-cards">${cardsHtml}</div>`;
+    <div class="kb-cards" id="kb-col-${week.w}" style="display:${colOpen?'flex':'none'}">${cardsHtml}</div>`;
     el.appendChild(col);
   });
 }
 
+  function kbColToggle(w){
+  kbColCollapsed[w]=!kbColCollapsed[w];
+  const body=document.getElementById('kb-col-'+w);
+  const hdr=body?.previousElementSibling;
+  if(!body||!hdr) return;
+  const open=!kbColCollapsed[w];
+  body.style.display=open?'flex':'none';
+  const arrow=hdr.querySelector('div span:last-child');
+  if(arrow) arrow.textContent=open?'▲':'▼';
+}
+
+function kbDayToggle(d){
+  const key='d_'+d;
+  kbDayCollapsed[key]=!kbDayCollapsed[key];
+  const body=document.getElementById('kb-day-'+d);
+  if(!body) return;
+  const open=!kbDayCollapsed[key];
+  body.style.display=open?(body.tagName==='DIV'&&body.style.flexDirection?'flex':'block'):'none';
+  // Update arrow on the label above
+  const label=body.previousElementSibling;
+  if(label&&label.classList.contains('kb-day-label')){
+    const arrow=label.querySelector('span:last-child span:last-child')||label.querySelector('span:last-child');
+    if(arrow) arrow.textContent=open?'▲':'▼';
+  }
+}
+function kbColToggle(w){
+  kbColCollapsed[w]=!kbColCollapsed[w];
+  const body=document.getElementById('kb-col-'+w);
+  const hdr=body?.previousElementSibling;
+  if(!body||!hdr) return;
+  const open=!kbColCollapsed[w];
+  body.style.display=open?'flex':'none';
+  const arrow=hdr.querySelector('div span:last-child');
+  if(arrow) arrow.textContent=open?'▲':'▼';
+}
+
+function kbDayToggle(d){
+  const key='d_'+d;
+  kbDayCollapsed[key]=!kbDayCollapsed[key];
+  const body=document.getElementById('kb-day-'+d);
+  if(!body) return;
+  const open=!kbDayCollapsed[key];
+  body.style.display=open?(body.tagName==='DIV'&&body.style.flexDirection?'flex':'block'):'none';
+  // Update arrow on the label above
+  const label=body.previousElementSibling;
+  if(label&&label.classList.contains('kb-day-label')){
+    const arrow=label.querySelector('span:last-child span:last-child')||label.querySelector('span:last-child');
+    if(arrow) arrow.textContent=open?'▲':'▼';
+  }
+}
+
+function kbSetAll(open){
+  SCHEDULE.forEach(week=>{
+    kbColCollapsed[week.w]=!open;
+    week.days.forEach(day=>{ kbDayCollapsed['d_'+day.d]=!open; });
+  });
+  renderKanban();
+}
 // ═══════════════════════════════════
 // DASHBOARD
 // ═══════════════════════════════════
@@ -1153,7 +1267,7 @@ function retakeAssess(w){ delete S.assessScores[w]; schedSave(); assessRunning=f
 // ═══════════════════════════════════
 // TOPIC MODAL
 // ═══════════════════════════════════
-let curTopicId=null;
+  let curTopicId=null;
 function openTopic(id){
   curTopicId=id;
   const t=TOPICS.find(x=>x.id===id);if(!t)return;
